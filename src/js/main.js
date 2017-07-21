@@ -1,22 +1,15 @@
-function playSound(evt) {
-    const audio = document.querySelector(`audio[data-key="${evt.keyCode}"]`); // ES6 template literals
-    const key = document.querySelector(`.key[data-key="${evt.keyCode}"]`);
 
-    if(!audio) return; // if we dont have audio for the eky that was pressed, do nothing
+import playSound from './playSound';
 
-    audio.currentTime = 0; // restart audio clip for rapid key hits
-    audio.play();
+function removeTransition(evt) {
+  if(evt.propertyName !== 'transform') return; // ignore the event if its not a transform
 
-    key.classList.add('playing');
-  };
+  this.classList.remove('playing');
+}
 
-  function removeTransition(evt) {
-    if(evt.propertyName !== 'transform') return; // ignore the event if its not a transform
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 
-    this.classList.remove('playing');
-  };
+window.addEventListener('keydown', playSound);
 
-  const keys = document.querySelectorAll('.key');
-  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-
-  window.addEventListener('keydown', playSound);
+// console.log('it works');

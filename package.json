@@ -1,0 +1,27 @@
+{
+  "name": "skim-soundboard",
+  "version": "1.0.0",
+  "description": "skim soundboard",
+  "repository": "https://github.com/billycsete/skim-soundboard.git",
+  "author": "Billy Csete <billycsete@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parallelshell 'yarn run watch:js' 'yarn run watch:css' 'yarn run browser-sync'",
+    "build": "yarn run build:css && yarn run build:js && yarn run test",
+    "test": "./node_modules/.bin/eslint src/**/*.js || true",
+    "build:css": "./node_modules/.bin/node-sass src/scss/main.scss --output-style compressed dist/main.built.css",
+    "watch:css": "./node_modules/.bin/node-sass src/scss/main.scss dist/main.built.css --recursive",
+    "watch:js": "rollup --format es ./src/js/main.js --output ./dist/main.built.js --sourcemap true --watch",
+    "build:js": "rollup --format es ./src/js/main.js --output ./dist/main.built.js",
+    "browser-sync": "./node_modules/.bin/browser-sync start ./index.html --server --files 'dist/*.js, *.html, dist/*.css'"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.12",
+    "eslint": "^4.2.0",
+    "node-sass": "^4.5.3",
+    "parallelshell": "^3.0.1",
+    "rollup": "^0.45.2",
+    "rollup-watch": "^4.3.1"
+  },
+  "dependencies": {}
+}
