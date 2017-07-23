@@ -10,10 +10,14 @@
 
 @import 'shared/normalize';
 @import 'shared/breakpoints';
+@import 'shared/layout';
+@import 'shared/typography';
 
 
 // ============================================
 // Components
 // ============================================
 
-@import 'components/page';
+@import 'components/header';
+@import 'components/soundboard';
+@import 'components/soundboard-pad';

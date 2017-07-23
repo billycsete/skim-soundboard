@@ -1,13 +1,10 @@
 
-import playSound from './components/playSound';
 
-function removeTransition(evt) {
-	if(evt.propertyName !== 'transform') return; // ignore the event if its not a transform
+import SoundPad from './components/SoundPad';
 
-	this.classList.remove('playing');
-}
 
-const keys = document.querySelectorAll('.key');
-keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 
-window.addEventListener('keydown', playSound);
+const pads = document.querySelectorAll('.pad');
+
+pads.forEach(key => new SoundPad(key));
+

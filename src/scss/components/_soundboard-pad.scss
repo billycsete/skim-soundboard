@@ -1,0 +1,63 @@
+// ============================================
+//
+// Soundboard - Pad
+//
+// ============================================
+
+
+.pad {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&:hover {
+		// opacity: 0.8;
+	}
+
+	&.pushed {
+		.pad-background {
+			transform: scale(0.85);
+		}
+	}
+
+	&.playing {
+		.pad-label {
+			opacity: 0;
+		}
+	}
+}
+
+.pad-background {
+	transition: transform 0.1s ease-in-out;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: linear-gradient(135deg, #ccc, #aaa);
+}
+
+.pad-content {
+	position: relative;
+	z-index: 3;
+	text-align: center;
+	color: white;
+
+	.pad-play-icon {
+		font-size: 48px;
+		margin-bottom: 40px;
+	}
+
+	.pad-label {
+		font-size: 22px;
+		font-weight: 200;
+		transition: opacity 1s ease-in-out;
+	}
+}
