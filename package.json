@@ -16,8 +16,8 @@
     "browser-sync": "./node_modules/.bin/browser-sync start ./index.html --server --files 'dist/*.js, *.html, dist/*.css'"
   },
   "devDependencies": {
-    "browser-sync": "^2.18.12",
-    "eslint": "^4.2.0",
+    "browser-sync": "^2.18.13",
+    "eslint": "^4.3.0",
     "node-sass": "^4.5.3",
     "parallelshell": "^3.0.1",
     "rollup": "^0.45.2",
