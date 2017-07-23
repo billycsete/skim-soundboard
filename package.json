@@ -10,7 +10,7 @@
     "build": "yarn run build:css && yarn run build:js && yarn run test",
     "test": "./node_modules/.bin/eslint src/**/*.js || true",
     "build:css": "./node_modules/.bin/node-sass src/scss/main.scss --output-style compressed dist/main.built.css",
-    "watch:css": "./node_modules/.bin/node-sass src/scss/main.scss dist/main.built.css --recursive",
+    "watch:css": "./node_modules/.bin/node-sass src/scss/main.scss dist/main.built.css --watch --recursive",
     "watch:js": "rollup --format es ./src/js/main.js --output ./dist/main.built.js --sourcemap true --watch",
     "build:js": "rollup --format es ./src/js/main.js --output ./dist/main.built.js",
     "browser-sync": "./node_modules/.bin/browser-sync start ./index.html --server --files 'dist/*.js, *.html, dist/*.css'"
