@@ -48,10 +48,10 @@
 	font-weight: 400;
 
 	@include media(medium) {
-		height: 36px;
+		font-size: 36px;
 	}
 
 	@include media(large) {
-		height: 42px;
+		font-size: 42px;
 	}
 }
