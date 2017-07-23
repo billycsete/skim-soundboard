@@ -5,6 +5,27 @@
 // ============================================
 
 
+// ================================
+// color pads
+// ================================
+
+@mixin color-pads($number-of-items: 12) {
+	@for $i from 0 through $number-of-items {
+		&:nth-child(#{$i}) .pad-background {
+		background-color: hsl(200 + $i * 10, 80, 63);
+		}
+	} 
+}
+
+.soundboard-item {
+	@include color-pads();
+}
+
+
+// ================================
+// soundboard pad
+// ================================
+
 .pad {
 	position: absolute;
 	z-index: 2;
@@ -17,7 +38,9 @@
 	justify-content: center;
 
 	&:hover {
-		// opacity: 0.8;
+		.pad-background {
+			filter: contrast(160%);
+		}
 	}
 
 	&.pushed {
@@ -31,33 +54,39 @@
 			opacity: 0;
 		}
 	}
-}
 
-.pad-background {
-	transition: transform 0.1s ease-in-out;
-	position: absolute;
-	z-index: 2;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background: linear-gradient(135deg, #ccc, #aaa);
-}
-
-.pad-content {
-	position: relative;
-	z-index: 3;
-	text-align: center;
-	color: white;
-
-	.pad-play-icon {
-		font-size: 48px;
-		margin-bottom: 40px;
+	// ================================
+	// pad background
+	// ================================
+	.pad-background {
+		transition: transform 0.1s ease-in-out;
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
 	}
 
-	.pad-label {
-		font-size: 22px;
-		font-weight: 200;
-		transition: opacity 1s ease-in-out;
+	// ================================
+	// pad content
+	// ================================
+	.pad-content {
+		position: relative;
+		z-index: 3;
+		text-align: center;
+		color: white;
+
+		.pad-play-icon {
+			font-size: 48px;
+			margin-bottom: 40px;
+		}
+
+		.pad-label {
+			font-size: 22px;
+			font-weight: 200;
+			transition: opacity 1s ease-in-out;
+		}
 	}
+
 }
