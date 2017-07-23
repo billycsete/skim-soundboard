@@ -40,7 +40,7 @@ export default class SoundPad {
 		this.element.classList.remove('pushed');
 	}
 
-	onTouchStart() {
+	onTouchStart(evt) {
 		console.log('touch start');
 
 		this.element.classList.add('pushed');

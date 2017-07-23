@@ -36,6 +36,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 
 	&:hover {
 		.pad-background {
@@ -78,16 +79,34 @@
 		z-index: 3;
 		text-align: center;
 		color: white;
+		user-select: none;
 
 		.pad-play-icon {
-			font-size: 48px;
-			margin-bottom: 40px;
+			font-size: 24px;
+			margin-bottom: 0.5em;
+
+			@include media(medium) {
+				font-size: 36px;
+			}
+
+			@include media(large) {
+				font-size: 40px;
+			}
 		}
 
 		.pad-label {
-			font-size: 22px;
-			font-weight: 200;
+			font-size: 16px;
+			font-weight: 400;
 			transition: opacity 1s ease-in-out;
+
+			@include media(medium) {
+				font-weight: 200;
+				font-size: 20px;
+			}
+
+			@include media(large) {
+				font-size: 22px;
+			}
 		}
 	}
 
