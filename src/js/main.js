@@ -1,5 +1,5 @@
 
-import playSound from './playSound';
+import playSound from './components/playSound';
 
 function removeTransition(evt) {
 	if(evt.propertyName !== 'transform') return; // ignore the event if its not a transform
