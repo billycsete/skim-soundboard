@@ -2689,3 +2689,7 @@ yargs@^7.0.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+
+zingtouch@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/zingtouch/-/zingtouch-1.0.5.tgz#1a746438e6b2bd169a59a2df5b03099faea43559"

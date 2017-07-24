@@ -1,4 +1,6 @@
 
+// import ZingTouch from 'zingtouch';
+
 
 export default class SoundPad {
 
@@ -10,25 +12,37 @@ export default class SoundPad {
 		// bound functions
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
+		this.onTap = this.onTap.bind(this);
 		this.onTouchStart = this.onTouchStart.bind(this);
 		this.onTouchEnd = this.onTouchEnd.bind(this);
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
+		this.onTransitionEnd = this.onTransitionEnd.bind(this);
+
+		// this.isPlaying;
+		this.isPadHeld = false;
 
 		this.setupEvents();
 	}
 
 	setupEvents() {
+		var hammertime = new Hammer(this.element);
+
+		hammertime.on('tap', this.onTap);
+
 		this.element.addEventListener('mousedown', this.onMouseDown);
 		this.element.addEventListener('mouseup', this.onMouseUp);
 		this.element.addEventListener('touchstart', this.onTouchStart);
-		this.element.addEventListener('touchstart', this.onTouchEnd);
+		this.element.addEventListener('touchend', this.onTouchEnd);
+		this.element.addEventListener('transitionend', this.onTransitionEnd);
 		window.addEventListener('keydown', this.onKeyDown);
 		window.addEventListener('keyup', this.onKeyUp);
 	}
 
 	onMouseDown() {
 		console.log('mouse down');
+
+		this.isPadHeld = true;
 
 		this.element.classList.add('pushed');
 		this.play();
@@ -37,14 +51,24 @@ export default class SoundPad {
 	onMouseUp() {
 		console.log('mouse up');
 
+		this.isPadHeld = false;
+		console.log(this.isPadHeld);
+
 		this.element.classList.remove('pushed');
 	}
 
+	onTap() {
+		console.log('tap');
+		// this.element.classList.add('pushed');
+		this.play();
+	}
+
 	onTouchStart(evt) {
+		console.log(evt);
 		console.log('touch start');
 
 		this.element.classList.add('pushed');
-		this.play();
+		// this.play();
 	}
 
 	onTouchEnd() {
@@ -63,17 +87,27 @@ export default class SoundPad {
 		this.play();
 	}
 
-	onKeyUp() {
+	onKeyUp(evt) {
+		console.log('key up', evt);
+
+		if( evt.keyCode !== this.keyboardTrigger) return;
+
 		this.element.classList.remove('pushed');
 	}
 
+	onTransitionEnd(evt) {
+		console.log('transitionend');
+		// if (evt.propertyName !== 'transform') return;
+		// this.element.classList.remove('pushed');
+	}
 
 	play() {
 		// if we dont have audio for the eky that was pressed, do nothing
 		if(!this.audio) return;
 
+		this.audio.volume = 0.1;
 		this.audio.currentTime = 0; // restart audio clip for rapid key hits
-		this.audio.play();
+		// this.audio.play();
 
 		this.element.classList.add('playing');
 	}

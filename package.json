@@ -21,7 +21,8 @@
     "node-sass": "^4.5.3",
     "parallelshell": "^3.0.1",
     "rollup": "^0.45.2",
-    "rollup-watch": "^4.3.1"
+    "rollup-watch": "^4.3.1",
+    "zingtouch": "^1.0.5"
   },
   "dependencies": {}
 }

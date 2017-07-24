@@ -61,7 +61,7 @@
 	// ================================
 
 	.pad-background {
-		transition: transform 0.1s ease-in-out;
+		transition: transform 0.05s ease-in-out;
 		position: absolute;
 		z-index: 2;
 		top: 0;
@@ -82,7 +82,7 @@
 		user-select: none;
 
 		.pad-play-icon {
-			font-size: 24px;
+			font-size: 20px;
 			margin-bottom: 0.5em;
 
 			@include media(medium) {
@@ -95,12 +95,11 @@
 		}
 
 		.pad-label {
-			font-size: 16px;
+			font-size: 14px;
 			font-weight: 400;
 			transition: opacity 1s ease-in-out;
 
 			@include media(medium) {
-				font-weight: 200;
 				font-size: 20px;
 			}
 
