@@ -1,0 +1,67 @@
+// =================================================
+//
+// Breakpoints
+//
+// =================================================
+
+// ====================================
+// Media Query Mixin
+// ====================================
+
+// set width based breakpoints
+$small  : 560px;
+$medium : 760px;
+$large  : 1100px;
+$xlarge : 1700px;
+
+
+@mixin media-width($breakpoint) {
+	@if $breakpoint == 'small' {
+		@media (min-width: $small) { @content; }
+	}
+
+	@else if $breakpoint == 'medium' {
+		@media (min-width: $medium) { @content; }
+	}
+
+	@else if $breakpoint == 'large' {
+		@media (min-width: $large) { @content; }
+	}
+
+	@else if $breakpoint == 'xlarge' {
+		@media (min-width: $xlarge) { @content; }
+	}
+
+	@else {
+		@warn 'Media mixin supports only these values: small, medium, large, xlarge';
+	}
+}
+
+
+// ====================================
+// Aspect Ratio Media Query Mixin
+// ====================================
+
+// set aspect ratio based breakpoints
+$landscape : '5/6';
+$wide      : '10/8';
+$ultrawide : '16/9';
+
+
+@mixin media-aspect-ratio($breakpoint) {
+	@if $breakpoint == 'landscape' {
+		@media screen and (min-aspect-ratio: $landscape) { @content; }
+	}
+
+	@else if $breakpoint == 'wide' {
+		@media screen and (min-aspect-ratio: $wide) { @content; }
+	}
+
+	@else if $breakpoint == 'ultrawide' {
+		@media screen and (min-aspect-ratio: $ultrawide) { @content; }
+	}
+
+	@else {
+		@warn 'media-aspect-ratio @mixin supports only these values: landscape, wide, ultrawide';
+	}
+}

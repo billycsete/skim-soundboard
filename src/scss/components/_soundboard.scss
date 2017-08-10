@@ -10,6 +10,14 @@
 	display: flex;
 	flex-wrap: wrap;
 	background: black;
+	height: 80vh;
+
+	// 4x3 grid - header on left
+	@include media-aspect-ratio('ultrawide') {
+		height: 100vh;
+		width: 75vw;
+		float: right;
+	}
 }
 
 .soundboard-item {
@@ -17,11 +25,21 @@
 	z-index: 1;
 	list-style-type: none;
 	margin: 0;
-	width: 33.33%;
-	padding-top: 33.33%;
 
-	@include media(medium) {
-		width: 25%;
-		padding-top: 25%;
+	// 3x4 grid
+	height: percentage(1/4);
+	width: percentage(1/3);
+
+	// 4x3 grid
+	@include media-aspect-ratio('landscape') {
+		height: percentage(1/3);
+		width: percentage(1/4);
 	}
+
+	// 4x3 grid - header on left
+	@include media-aspect-ratio('ultrawide') {
+		height: percentage(1/2);
+		width: percentage(1/6);
+	}
+
 }
