@@ -20,7 +20,7 @@
 	}
 }
 
-.soundboard-item {
+.soundboard-pad {
 	position: relative;
 	z-index: 1;
 	list-style-type: none;
@@ -40,6 +40,134 @@
 	@include media-aspect-ratio('ultrawide') {
 		height: percentage(1/2);
 		width: percentage(1/6);
+	}
+
+}
+
+
+// ============================================
+//
+// Soundboard - Pad
+//
+// ============================================
+
+// disable tap highlighting because its messing with our tap based website
+.pad, .pad * {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	tap-highlight-color: rgba(0,0,0,0);
+}
+
+
+// ================================
+// color pads
+// ================================
+
+@mixin color-pads($number-of-items: 12) {
+	@for $i from 0 through $number-of-items {
+		&:nth-child(#{$i}) .pad-background {
+		background-color: hsl(200 + $i * 10, 80, 63);
+		}
+	} 
+}
+
+.soundboard-pad {
+	@include color-pads();
+}
+
+
+// ================================
+// soundboard pad
+// ================================
+
+.pad {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+
+	* {
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	&:hover {
+		.pad-background {
+			filter: contrast(160%);
+		}
+	}
+
+
+	// ================================
+	// pad background
+	// ================================
+
+	.pad-background {
+		transform: translate3d(0,0,0);
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+	.pad-audio-progress {
+		position: absolute;
+		z-index: 4;
+		bottom: 0;
+		left: 0;
+		height: 10px;
+		background: white;
+		opacity: 0.2;
+		width: 100%;
+	}
+
+	// ================================
+	// pad content
+	// ================================
+
+	.pad-content {
+		position: relative;
+		z-index: 3;
+		text-align: center;
+		color: white;
+		user-select: none;
+
+		.pad-play-icon {
+			font-size: 20px;
+			margin-bottom: 0.5em;
+
+			@include media-width(medium) {
+				font-size: 36px;
+			}
+
+			@include media-width(large) {
+				font-size: 40px;
+			}
+
+			.playing & {
+				color: black;
+			}
+		}
+
+		.pad-label {
+			font-size: 14px;
+			font-weight: 400;
+
+			@include media-width(medium) {
+				font-size: 20px;
+			}
+
+			@include media-width(large) {
+				font-size: 22px;
+			}
+		}
 	}
 
 }
