@@ -1489,6 +1489,10 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
+math-utils@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/math-utils/-/math-utils-1.0.2.tgz#9f6d687638e184536aece96d11fae130be031df6"
+
 meow@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/meow/-/meow-3.7.0.tgz#72cb668b425228290abbfa856892587308a801fb"
@@ -2689,7 +2693,3 @@ yargs@^7.0.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
-
-zingtouch@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/zingtouch/-/zingtouch-1.0.5.tgz#1a746438e6b2bd169a59a2df5b03099faea43559"

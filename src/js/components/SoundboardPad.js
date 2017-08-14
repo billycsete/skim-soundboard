@@ -1,15 +1,27 @@
+import '../utils/map';
 
+
+/*
+ * @class SoundboardPad
+ */
 export default class SoundboardPad {
 
-
+	/*
+	@param {HTML element} element - pad element
+	 */
 	constructor(element) {
 		this.element = element; // TODO: better name for the soundboard grid pad item thingy
 		this.boundingRect = this.element.getBoundingClientRect(); // TODO: update on resize
 
 		this.padElement = this.element.querySelector('.pad');
 		this.audioElement = this.element.querySelector('.pad-audio');
+		this.audioProgressElement = this.element.querySelector('.pad-audio-progress');
+		this.audioDuration = null;
+		this.audioProgressTween = null;
 
 		this.keyboardTrigger = parseInt( this.element.getAttribute('data-keyboard-triggger') );
+
+		this.isPushed = false;
 
 		// bound functions
 		this.onMouseDown = this.onMouseDown.bind(this);
@@ -21,15 +33,26 @@ export default class SoundboardPad {
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
 		this.onAudioEnded = this.onAudioEnded.bind(this);
-		this.onAudioTimeUpdate = this.onAudioTimeUpdate.bind(this);
+		this.onAudioLoaded = this.onAudioLoaded.bind(this);
+		this.playProgressTween = this.playProgressTween.bind(this);
+		this.onPushTweenComplete = this.onPushTweenComplete.bind(this);
 
-		this.isPushed = false;
-		this.padPushTween = TweenMax.to( this.padElement, 0.04, { scale: 0.85} ).pause();
+		this.padPushTween = TweenMax.fromTo(this.padElement, 0.1, {scale: 1}, { scale: 0.9, onComplete: this.onPushTweenComplete});
+		this.padPushTween.pause();
 
 		this.setupEvents();
 	}
 
+	onPushTweenComplete() {
+		console.log('complete');
+		if (this.isPushed) return;
+		this.padPushTween.reverse();
+	}
 
+
+	/*
+	 * setup event handlers
+	 */
 	setupEvents() {
 		// click
 		this.element.addEventListener('mousedown', this.onMouseDown);
@@ -41,11 +64,26 @@ export default class SoundboardPad {
 		window.addEventListener('keydown', this.onKeyDown);
 		window.addEventListener('keyup', this.onKeyUp);
 		// audio
-		this.audioElement.addEventListener('ended', this.onAudioEnded);
-		this.audioElement.addEventListener('timeupdate', this.onAudioTimeUpdate);
+		this.audioElement.addEventListener('loadedmetadata', this.onAudioLoaded);
 	}
 
 
+	/*
+	 * onAudioLoaded
+	 */
+	onAudioLoaded() {
+		this.audioDuration = this.audioElement.duration;
+
+		this.audioProgressTween = TweenMax.to( this.audioProgressElement, this.audioDuration, { scaleX: 1} );
+		this.audioProgressTween.pause();
+
+		this.audioElement.addEventListener('ended', this.onAudioEnded);
+	}
+
+
+	/*
+	 * onMouseDown
+	 */
 	onMouseDown() {
 		// start listening for mouse move on the window
 		// so we can detect when a mouse drag leaves the pad
@@ -54,24 +92,26 @@ export default class SoundboardPad {
 		this.padPushTween.play();
 		this.isPushed = true;
 		this.playAudio();
-
-		// start a timer
 	}
 
 
+	/*
+	 * onMouseUp
+	 */
 	onMouseUp() {
 		this.padPushTween.reverse();
 		this.isPushed = false;
-
-		// if the timer was shorter than a quarter of the push animation duration
-			// play the animation through and back
-
-		// timer = null
 
 		window.removeEventListener('mousemove', this.onMouseMove);
 	}
 
 
+	/*
+	 * onMouseMove
+	 * 
+	 * 
+	 * @param {Object} evt - mouse move event
+	 */
 	onMouseMove(evt) {
 		let pointerX = evt.clientX;
 		let pointerY = evt.clientY;
@@ -90,10 +130,19 @@ export default class SoundboardPad {
 	}
 
 
+	/*
+	 * onTouchStart
+	 * 
+	 * 
+	 * @param {Object} evt - touch start event
+	 */
 	onTouchStart(evt) {
 		// start listening for mouse move on the window
 		// so we can detect when a mouse drag leaves the pad
 		window.addEventListener('touchmove', this.onTouchMove);
+
+		// timer
+		this.touchStartTime = Date.now();
 
 		this.padPushTween.play();
 		this.isPushed = true;
@@ -106,14 +155,34 @@ export default class SoundboardPad {
 	}
 
 
+	/*
+	 * onTouchEnd
+	 */
 	onTouchEnd() {
-		this.padPushTween.reverse();
+
+		let touchEndTime = Date.now();
+		let touchLength = touchEndTime - this.touchStartTime;
+
 		this.isPushed = false;
+		this.padPushTween.reverse();
+
+		// if ( touchLength < 100 ) {
+			
+		// } else {
+		// 	this.isPushed = false;
+		// }
+
 
 		window.removeEventListener('touchend', this.onTouchMove);
 	}
 
 
+	/*
+	 * onTouchMove
+	 * 
+	 * 
+	 * @param {Object} evt - touch move event
+	 */
 	onTouchMove(evt) {
 		let touchX = evt.touches[0].clientX;
 		let touchY = evt.touches[0].clientY;
@@ -132,6 +201,12 @@ export default class SoundboardPad {
 	}
 
 
+	/*
+	 * onKeyDown
+	 * 
+	 * 
+	 * @param {Object} evt - keydown event
+	 */
 	onKeyDown(evt) {
 		console.log('key down', evt.keyCode);
 
@@ -144,6 +219,12 @@ export default class SoundboardPad {
 	}
 
 
+	/*
+	 * onKeyUp
+	 * 
+	 * 
+	 * @param {Object} evt - keyup event
+	 */
 	onKeyUp(evt) {
 		console.log('key up', evt);
 
@@ -154,6 +235,9 @@ export default class SoundboardPad {
 	}
 
 
+	/*
+	 * playAudio
+	 */
 	playAudio() {
 		// if we dont have audio for the pad that was pressed, do nothing
 		if ( !this.audioElement ) return;
@@ -162,18 +246,28 @@ export default class SoundboardPad {
 		this.audioElement.currentTime = 0; // restart audio clip for rapid key hits
 		this.audioElement.play();
 
+		this.playProgressTween();
 		this.element.classList.add('playing');
 	}
 
 
-	onAudioTimeUpdate(evt) {
-		let currentTime = this.audioElement.currentTime;
-		console.log(this.audioElement.duration, currentTime);
-
+	/*
+	 *
+	 * @param {Number} time - length of time in ms
+	 */
+	playProgressTween() {
+		this.audioProgressTween.restart();
+		this.audioProgressTween.play();
 	}
 
 
+	/*
+	 * onAudioEnded
+	 */
 	onAudioEnded() {
+		this.audioProgressTween.restart();
+		this.audioProgressTween.pause();
+
 		this.element.classList.remove('playing');
 
 		// if the button is being held down, repeat the audio
